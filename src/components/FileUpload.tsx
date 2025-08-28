@@ -36,43 +36,67 @@ const FileUpload: React.FC<FileUploadProps> = ({ selectedSyllabus }) => {
 
     setUploadedFiles(prev => [...prev, ...newFiles]);
 
-    // Simulate upload progress
-    for (const file of newFiles) {
+    // Upload files to Python FastAPI backend
+    for (const fileData of newFiles) {
       const uploadFile = async () => {
         try {
-          // Simulate upload progress
-          for (let progress = 0; progress <= 100; progress += 10) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            setUploadedFiles(prev => 
-              prev.map(f => 
-                f.id === file.id ? { ...f, progress } : f
-              )
-            );
+          // Find the actual File object
+          const actualFile = Array.from(files).find(f => f.name === fileData.name);
+          if (!actualFile) throw new Error('File not found');
+
+          // Create form data for file upload
+          const formData = new FormData();
+          formData.append('file', actualFile);
+          formData.append('syllabus', selectedSyllabus);
+
+          // Update progress to show upload starting
+          setUploadedFiles(prev => 
+            prev.map(f => 
+              f.id === fileData.id ? { ...f, progress: 20 } : f
+            )
+          );
+
+          // Call your Python FastAPI backend
+          const response = await fetch('http://localhost:8000/upload-pdf/', {
+            method: 'POST',
+            body: formData
+          });
+
+          // Update progress
+          setUploadedFiles(prev => 
+            prev.map(f => 
+              f.id === fileData.id ? { ...f, progress: 80 } : f
+            )
+          );
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || `Upload failed: ${response.status}`);
           }
 
-          // Simulate API call to backend
-          // In real implementation: await uploadPDFToBackend(file, selectedSyllabus)
+          const data = await response.json();
           
           setUploadedFiles(prev => 
             prev.map(f => 
-              f.id === file.id ? { ...f, status: 'success' } : f
+              f.id === fileData.id ? { ...f, status: 'success', progress: 100 } : f
             )
           );
 
           toast({
             title: "File uploaded successfully",
-            description: `${file.name} is ready for questions`,
+            description: `${data.filename} processed ${data.pages_processed} chunks for ${data.syllabus.toUpperCase()}`,
           });
         } catch (error) {
+          console.error('Upload error:', error);
           setUploadedFiles(prev => 
             prev.map(f => 
-              f.id === file.id ? { ...f, status: 'error' } : f
+              f.id === fileData.id ? { ...f, status: 'error' } : f
             )
           );
 
           toast({
             title: "Upload failed",
-            description: `Failed to upload ${file.name}`,
+            description: error instanceof Error ? error.message : `Failed to upload ${fileData.name}`,
             variant: "destructive",
           });
         }

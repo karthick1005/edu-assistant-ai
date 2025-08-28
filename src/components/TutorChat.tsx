@@ -60,20 +60,48 @@ const TutorChat: React.FC<TutorChatProps> = ({
     setInputText('');
     setIsLoading(true);
 
-    // Simulate API call to backend
-    setTimeout(() => {
+    try {
+      // Call your Python FastAPI backend
+      const response = await fetch('http://localhost:8000/ask-question/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          question: inputText,
+          syllabus: selectedSyllabus,
+          quiz_mode: isQuizMode
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: `Based on the ${selectedSyllabus} syllabus, here's what I found about "${inputText}": This is a simulated response. In the actual implementation, this would connect to your FastAPI backend to process the question against uploaded PDFs.${
-          isQuizMode ? '\n\nQuiz Question: Can you explain this concept in your own words?' : ''
-        }`,
+        text: data.answer + (data.quiz_questions && data.quiz_questions.length > 0 
+          ? '\n\n🧠 Quiz Questions:\n' + data.quiz_questions.map((q: string, i: number) => `${i + 1}. ${q}`).join('\n')
+          : ''),
         sender: 'bot',
         timestamp: new Date()
       };
       
       setMessages(prev => [...prev, botResponse]);
+    } catch (error) {
+      console.error('Error calling backend:', error);
+      const errorResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: `Sorry, I couldn't process your question. Please make sure:\n1. The backend server is running on http://localhost:8000\n2. PDFs are uploaded for the ${selectedSyllabus.toUpperCase()} syllabus\n3. Your OpenAI API key is configured\n\nError: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
