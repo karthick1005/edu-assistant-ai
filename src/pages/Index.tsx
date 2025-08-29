@@ -41,23 +41,31 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background geometric-bg relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 gradient-hero-mesh opacity-40"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 gradient-neural rounded-full opacity-20 blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 gradient-primary rounded-full opacity-15 blur-3xl float-animation"></div>
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+      <header className="sticky top-0 z-50 border-b glass-card relative">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg gradient-hero flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
+            <div className="flex items-center gap-4 animate-fade-in">
+              <div className="w-12 h-12 rounded-xl gradient-neural flex items-center justify-center shadow-neural pulse-neural">
+                <Brain className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">AI Tutor</h1>
-                <p className="text-sm text-muted-foreground">Smart Learning Assistant</p>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-neural bg-clip-text text-transparent">
+                  AI Tutor Pro
+                </h1>
+                <p className="text-sm text-muted-foreground font-medium">
+                  Next-Gen Learning Assistant
+                </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-6 animate-scale-in">
+              <div className="hidden md:flex items-center gap-3 px-4 py-2 rounded-xl glass-card">
                 <Switch
                   id="quiz-mode"
                   checked={isQuizMode}
@@ -68,7 +76,7 @@ const Index = () => {
                 </Label>
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-3 px-4 py-2 rounded-xl glass-card">
                 <Switch
                   id="visual-mode"
                   checked={isVisualMode}
@@ -79,8 +87,8 @@ const Index = () => {
                 </Label>
               </div>
               
-              <Button variant="ghost" size="icon">
-                <Settings className="w-4 h-4" />
+              <Button variant="ghost" size="icon" className="hover-glow rounded-xl h-10 w-10">
+                <Settings className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -88,22 +96,22 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="chat" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-muted/50">
-            <TabsTrigger value="chat" className="flex items-center gap-2">
+      <main className="container mx-auto px-4 py-8 relative z-10">
+        <Tabs defaultValue="chat" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-4 glass-card p-2 h-14 shadow-medium">
+            <TabsTrigger value="chat" className="flex items-center gap-2 h-10 font-medium transition-spring data-[state=active]:gradient-primary data-[state=active]:text-white">
               <MessageSquare className="w-4 h-4" />
               Chat
             </TabsTrigger>
-            <TabsTrigger value="upload" className="flex items-center gap-2">
+            <TabsTrigger value="upload" className="flex items-center gap-2 h-10 font-medium transition-spring data-[state=active]:gradient-secondary data-[state=active]:text-white">
               <Upload className="w-4 h-4" />
               Upload
             </TabsTrigger>
-            <TabsTrigger value="progress" className="flex items-center gap-2">
+            <TabsTrigger value="progress" className="flex items-center gap-2 h-10 font-medium transition-spring data-[state=active]:gradient-accent data-[state=active]:text-white">
               <TrendingUp className="w-4 h-4" />
               Progress
             </TabsTrigger>
-            <TabsTrigger value="features" className="flex items-center gap-2">
+            <TabsTrigger value="features" className="flex items-center gap-2 h-10 font-medium transition-spring data-[state=active]:gradient-neural data-[state=active]:text-white">
               <Sparkles className="w-4 h-4" />
               Features
             </TabsTrigger>
@@ -111,68 +119,68 @@ const Index = () => {
 
           <TabsContent value="chat" className="space-y-6">
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="p-4 gradient-card shadow-soft">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
-                    <BookOpen className="w-4 h-4 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
+              <Card className="p-6 glass-card hover-lift group">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-glow group-hover:shadow-neural transition-smooth">
+                    <BookOpen className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-muted-foreground mb-2">Active Syllabus</p>
+                    <p className="text-sm text-muted-foreground mb-3">Active Syllabus</p>
                     <Select value={selectedSyllabus} onValueChange={setSelectedSyllabus}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full h-10 border-primary/20 focus:border-primary hover:border-primary/40 transition-smooth">
                         <SelectValue placeholder="Select syllabus" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ncert">NCERT</SelectItem>
-                        <SelectItem value="samacheer">Samacheer Kalvi</SelectItem>
+                      <SelectContent className="glass-card border-primary/20">
+                        <SelectItem value="ncert" className="hover:bg-primary/10 focus:bg-primary/10">NCERT</SelectItem>
+                        <SelectItem value="samacheer" className="hover:bg-primary/10 focus:bg-primary/10">Samacheer Kalvi</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
               </Card>
               
-              <Card className="p-4 gradient-card shadow-soft">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full gradient-secondary flex items-center justify-center">
-                    <GraduationCap className="w-4 h-4 text-white" />
+              <Card className="p-6 glass-card hover-lift group">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl gradient-secondary flex items-center justify-center shadow-glow group-hover:shadow-neural transition-smooth">
+                    <GraduationCap className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-muted-foreground mb-2">Standard</p>
+                    <p className="text-sm text-muted-foreground mb-3">Standard</p>
                     <Select value={selectedStandard} onValueChange={setSelectedStandard}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full h-10 border-secondary/20 focus:border-secondary hover:border-secondary/40 transition-smooth">
                         <SelectValue placeholder="Select standard" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="10th">10th Standard</SelectItem>
-                        <SelectItem value="11th">11th Standard</SelectItem>
-                        <SelectItem value="12th">12th Standard</SelectItem>
+                      <SelectContent className="glass-card border-secondary/20">
+                        <SelectItem value="10th" className="hover:bg-secondary/10 focus:bg-secondary/10">10th Standard</SelectItem>
+                        <SelectItem value="11th" className="hover:bg-secondary/10 focus:bg-secondary/10">11th Standard</SelectItem>
+                        <SelectItem value="12th" className="hover:bg-secondary/10 focus:bg-secondary/10">12th Standard</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
               </Card>
               
-              <Card className="p-4 gradient-card shadow-soft">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full gradient-accent flex items-center justify-center">
-                    <Target className="w-4 h-4 text-white" />
+              <Card className="p-6 glass-card hover-lift group">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center shadow-glow group-hover:shadow-neural transition-smooth">
+                    <Target className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Questions Asked</p>
-                    <p className="font-semibold">156</p>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent">156</p>
                   </div>
                 </div>
               </Card>
               
-              <Card className="p-4 gradient-card shadow-soft">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
-                    <Zap className="w-4 h-4 text-white" />
+              <Card className="p-6 glass-card hover-lift group">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl gradient-neural flex items-center justify-center shadow-neural group-hover:pulse-neural transition-smooth">
+                    <Zap className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Current Streak</p>
-                    <p className="font-semibold">7 days</p>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-neural to-primary bg-clip-text text-transparent">7 days</p>
                   </div>
                 </div>
               </Card>

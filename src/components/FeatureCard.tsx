@@ -21,19 +21,23 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   buttonText = "Activate"
 }) => {
   return (
-    <Card className={`p-6 gradient-card shadow-medium transition-smooth hover:shadow-strong ${
-      isActive ? 'ring-2 ring-primary shadow-glow' : ''
+    <Card className={`p-8 glass-card shadow-strong hover-lift transition-spring group ${
+      isActive ? 'ring-2 ring-primary/30 shadow-glow' : ''
     }`}>
-      <div className="flex items-start gap-4">
-        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-          isActive ? 'gradient-primary' : 'bg-muted'
+      <div className="flex items-start gap-6">
+        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-spring ${
+          isActive ? 'gradient-neural shadow-neural' : 'bg-muted/50 group-hover:gradient-primary'
         }`}>
-          <Icon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
+          <Icon className={`w-7 h-7 transition-smooth ${
+            isActive ? 'text-white' : 'text-muted-foreground group-hover:text-white'
+          }`} />
         </div>
         
         <div className="flex-1">
-          <h3 className="font-semibold text-lg mb-2">{title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+          <h3 className="font-bold text-xl mb-3 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+            {title}
+          </h3>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-6">
             {description}
           </p>
           
@@ -42,9 +46,13 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
               onClick={onClick}
               variant={isActive ? "secondary" : "hero"}
               size="sm"
-              className="w-full"
+              className={`w-full h-11 font-medium transition-spring ${
+                isActive 
+                  ? 'gradient-primary text-white shadow-glow' 
+                  : 'hover-glow border-primary/20 hover:border-primary'
+              }`}
             >
-              {isActive ? "Active" : buttonText}
+              {isActive ? "✓ Active" : buttonText}
             </Button>
           )}
         </div>
