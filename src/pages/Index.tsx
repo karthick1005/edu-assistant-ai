@@ -9,7 +9,8 @@ import {
   Brain,
   Target,
   Zap,
-  Settings
+  Settings,
+  GraduationCap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -24,6 +25,7 @@ import FeatureCard from '@/components/FeatureCard';
 
 const Index = () => {
   const [selectedSyllabus, setSelectedSyllabus] = useState('ncert');
+  const [selectedStandard, setSelectedStandard] = useState('10th');
   const [isQuizMode, setIsQuizMode] = useState(false);
   const [isVisualMode, setIsVisualMode] = useState(false);
 
@@ -109,7 +111,7 @@ const Index = () => {
 
           <TabsContent value="chat" className="space-y-6">
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="p-4 gradient-card shadow-soft">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
@@ -133,6 +135,27 @@ const Index = () => {
               <Card className="p-4 gradient-card shadow-soft">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full gradient-secondary flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-muted-foreground mb-2">Standard</p>
+                    <Select value={selectedStandard} onValueChange={setSelectedStandard}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select standard" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="10th">10th Standard</SelectItem>
+                        <SelectItem value="11th">11th Standard</SelectItem>
+                        <SelectItem value="12th">12th Standard</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </Card>
+              
+              <Card className="p-4 gradient-card shadow-soft">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full gradient-accent flex items-center justify-center">
                     <Target className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -144,8 +167,8 @@ const Index = () => {
               
               <Card className="p-4 gradient-card shadow-soft">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full gradient-accent flex items-center justify-center">
-                    <Zap className="w-4 h-4 text-accent-foreground" />
+                  <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-white" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Current Streak</p>
