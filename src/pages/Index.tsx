@@ -26,6 +26,17 @@ const Index = () => {
   const [isQuizMode, setIsQuizMode] = useState(false);
   const [isVisualMode, setIsVisualMode] = useState(false);
 
+  const getSyllabusDisplayName = (syllabus: string) => {
+    switch (syllabus) {
+      case 'ncert':
+        return 'NCERT';
+      case 'samacheer':
+        return 'Samacheer Kalvi';
+      default:
+        return syllabus.toUpperCase();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -105,7 +116,7 @@ const Index = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Active Syllabus</p>
-                    <p className="font-semibold">{selectedSyllabus.toUpperCase()}</p>
+                    <p className="font-semibold">{getSyllabusDisplayName(selectedSyllabus)}</p>
                   </div>
                 </div>
               </Card>
