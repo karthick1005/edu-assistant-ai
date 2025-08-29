@@ -16,6 +16,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import TutorChat from '@/components/TutorChat';
 import FileUpload from '@/components/FileUpload';
 import ProgressDashboard from '@/components/ProgressDashboard';
@@ -114,9 +115,17 @@ const Index = () => {
                   <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
                     <BookOpen className="w-4 h-4 text-white" />
                   </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Active Syllabus</p>
-                    <p className="font-semibold">{getSyllabusDisplayName(selectedSyllabus)}</p>
+                  <div className="flex-1">
+                    <p className="text-sm text-muted-foreground mb-2">Active Syllabus</p>
+                    <Select value={selectedSyllabus} onValueChange={setSelectedSyllabus}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select syllabus" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ncert">NCERT</SelectItem>
+                        <SelectItem value="samacheer">Samacheer Kalvi</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </Card>
